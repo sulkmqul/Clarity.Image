@@ -52,11 +52,26 @@ namespace Clarity.Image.PNG
         /// <summary>
         /// PNG画像の書き込み
         /// </summary>
+        /// <param name="st">書き込みファイルパス</param>
+        /// <param name="width">画像横幅</param>
+        /// <param name="height">縦幅</param>
+        /// <param name="buf">書き込みRGBAバッファ</param>
+        public async Task Save(string filepath, int width, int height, byte[] buf)
+        {
+            using (FileStream fp = new FileStream(filepath, FileMode.Create))
+            {
+                await this.Save(fp, width, height, buf);
+            }
+        }
+
+        /// <summary>
+        /// PNG画像の書き込み
+        /// </summary>
         /// <param name="st">書き込みstream</param>
         /// <param name="width">画像横幅</param>
         /// <param name="height">縦幅</param>
         /// <param name="buf">書き込みRGBAバッファ</param>
-        public async Task Write(Stream st, int width, int height, byte[] buf)
+        public async Task Save(Stream st, int width, int height, byte[] buf)
         {
             PngDataManager mana = new PngDataManager();
 

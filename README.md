@@ -1,9 +1,13 @@
 # Clarity.Image
 APNG and PNG library for C# .net.
 
-C#でapngを扱うライブラリおよび使用サンプルです。  
-pngおよびapngファイルを読み込み、RGBA形式のバッファを作成して保持します。  
-apngの読み込みを書いていたら自然とpngの方も出来ちゃったので含めてますが、pngはおまけみたいなもんで、普通に.net標準の方使った方が便利だと思います。
+C#でapngを扱うライブラリおよび使用サンプルです。
+apngファイルを読み込み、フレームごとのRGBA形式のバッファを作成して保持します。  
+System.Drawing.Bitmapでも使用できるようにRGBA形式から相互変換関数も含めておきました。  
+RGBA形式が基準なので、ある程度は汎用的に利用できると思います。
+
+apngの読み込みを書いていたら自然とpngの方も出来ちゃったので含めていますが、  
+pngはおまけみたいなもんで、普通に.net標準の方使った方が便利だと思います。
 
 ## Build
 C#  
@@ -23,6 +27,9 @@ Visual Studio 2022
 
 
 ## Usage
+See PngTest\Program.cs for details.  
+
+詳しくはPngTest.Program.csを見てください。
 ### APNG
 #### Read
 ```
@@ -48,7 +55,7 @@ awit png.Load(@"image.png");
 
 #### Write
 ```
-
+await aw.Save("save.png", png.Width, png.Height, png.Data);
 ```
 #### 
 ## Author 

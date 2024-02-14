@@ -12,6 +12,13 @@ namespace Clarity.Image.PNG
     /// </summary>
     public class APngFrame
     {
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="w">横幅</param>
+        /// <param name="h">縦幅</param>
+        /// <param name="time">表示時間(ms)</param>
+        /// <param name="img">RGBAバッファ</param>
         public APngFrame(int w, int h, int time, byte[] img)
         {
             this.Width = w;
