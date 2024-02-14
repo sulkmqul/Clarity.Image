@@ -13,9 +13,9 @@ namespace Clarity.Image.PNG
     /// <summary>
     /// APNGの書き込み
     /// </summary>
-    public class ApngWriter : PortableGraphicsNetworkWriter
+    public class APngWriter : PortableGraphicsNetworkWriter
     {
-        public ApngWriter()
+        public APngWriter()
         {
 
         }

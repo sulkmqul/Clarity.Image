@@ -106,7 +106,7 @@ namespace Clarity.Image.PNG
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <param name="buf">RGBAバッファ</param>
-        /// <remarks>大変すぎるのでFilterはNoneOnly</remarks>
+        /// <remarks>大変すぎるのでFilterは一部のみ対応</remarks>
         /// <returns></returns>
         public byte[] CompressRGBA(int width, int height, byte[] buf)        
         {
@@ -174,27 +174,97 @@ namespace Clarity.Image.PNG
         /// <param name="width">横幅</param>
         /// <param name="height">縦幅</param>
         /// <param name="buf">RGBA</param>
-        /// <returns></returns>
-        byte[] CreateFilterBuffer(int width, int height, byte[] buf)
+        /// <returns>作成フィルタ付バッファ</returns>
+        private byte[] CreateFilterBuffer(int width, int height, byte[] buf)
         {
             using MemoryStream mst = new MemoryStream();
 
-            int size = width * N_RGBA;
-
-            for (int y=0; y<height; y++)
+            //場合分けもよくわからないのでとりあえずNone実装
+            for (int y = 0; y < height; y++)
             {
-                //FILTER Typeの書き込み
-                //大変すぎるのでFILTER無のみ
-                mst.WriteByte((byte)EFilterType.None);
-
-                //一行コピー                
-                int offset = y * size;
-                mst.Write(buf, offset, size);
+                byte[] filbuf = { };
                 
+                //None
+                filbuf = this.CreateFilterBufferNone(width, y, buf);
+                //Sub
+                //filbuf = this.CreateFilterBufferSub(width, y, buf);
+                //Up
+                //Average
+                //Paeth
+                
+                
+                mst.Write(filbuf, 0, filbuf.Length);
+
             }
 
             return mst.ToArray();
         }
+
+        /// <summary>
+        /// NoneFilterのバッファを作成する
+        /// </summary>
+        /// <param name="width">横幅</param>
+        /// <param name="ypos">y位置</param>
+        /// <param name="buf">RGBAバッファ</param>
+        /// <returns></returns>
+        private byte[] CreateFilterBufferNone(int width, int ypos, byte[] buf)
+        {
+            using MemoryStream mst = new MemoryStream();
+
+            int size = (width * N_RGBA);
+
+
+            //FILTER設定
+            mst.WriteByte((byte)EFilterType.None);
+
+            //一行コピー                
+            int offset = ypos * size;
+            mst.Write(buf, offset, size);
+
+
+            return mst.ToArray();
+        }
+
+        /// <summary>
+        /// SubFilterのバッファを作成する
+        /// </summary>
+        /// <param name="width">横幅</param>
+        /// <param name="ypos">y位置</param>
+        /// <param name="buf">RGBAバッファ</param>
+        /// <returns></returns>
+        private byte[] CreateFilterBufferSub(int width, int ypos, byte[] buf)
+        {
+            using MemoryStream mst = new MemoryStream();
+
+            //FILTER設定
+            mst.WriteByte((byte)EFilterType.Sub);
+
+            int size = (width * N_RGBA);
+            for (int x=0; x<width; x++)
+            {
+                int srcpos = (ypos * size) + (x * N_RGBA);
+                int subpos = (ypos * size) + ((x - 1) * N_RGBA);
+
+                for (int i=0; i<N_RGBA; i++)
+                {
+                    uint a = 0;
+                    //左端は比較がないので0比較
+                    if(x != 0)
+                    {
+                        a = buf[subpos + i];
+                    }
+                    a = buf[srcpos + i] - a;
+                    a = a % 256;
+
+                    byte val = (byte)a;
+                    mst.WriteByte(val);
+                }
+            }
+
+
+            return mst.ToArray();
+        }
+
 
 
         /// <summary>
