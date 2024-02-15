@@ -52,7 +52,7 @@ namespace Clarity.Image.PNG
         /// <summary>
         /// chunk種類 4文字
         /// </summary>
-        public string Type { get; internal set; } = "";
+        public string Type { get; init; } = "";
 
         /// <summary>
         /// chunk種類byteの取得
@@ -392,7 +392,7 @@ namespace Clarity.Image.PNG
         }
 
         /// <summary>
-        /// データのコピー
+        /// ihdrのコピー
         /// </summary>
         /// <returns></returns>        
         public object Clone()
@@ -429,7 +429,7 @@ namespace Clarity.Image.PNG
 
         public override void ReadChunk(byte[] data)
         {
-
+            //特になし
         }
     }
 
@@ -736,12 +736,27 @@ namespace Clarity.Image.PNG
             OVER,
         }
 
+        /// <summary>
+        /// シーケンス番号
+        /// </summary>
         public uint SequenceNumber { get; set; }
 
+        /// <summary>
+        /// フレーム画像横幅
+        /// </summary>
         public uint Width { get; set; }
+        /// <summary>
+        /// フレーム画像縦幅
+        /// </summary>
         public uint Height { get; set; }
 
+        /// <summary>
+        /// フレーム画像描画位置X
+        /// </summary>
         public uint XOffset { get; set; }
+        /// <summary>
+        /// フレーム画像描画位置Y
+        /// </summary>
         public uint YOffset { get; set; }
 
         /// <summary>
@@ -765,8 +780,13 @@ namespace Clarity.Image.PNG
 
             }
         }
-
+        /// <summary>
+        /// 描画時の前データ削除方法
+        /// </summary>
         public EDisposeOp DisposeOp { get; set; }
+        /// <summary>
+        /// 描画方法
+        /// </summary>
         public EBlendOp BlendOp { get; set; }
 
         /// <summary>
@@ -837,6 +857,9 @@ namespace Clarity.Image.PNG
 
         }
 
+        /// <summary>
+        /// シーケンス番号
+        /// </summary>
         public uint SequenceNumber { get; set; }
 
         /// <summary>

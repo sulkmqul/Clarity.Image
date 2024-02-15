@@ -17,6 +17,7 @@ namespace Clarity.Image.PNG
         /// <param name="width">横幅</param>
         /// <param name="height">縦幅</param>
         /// <returns>作成IHDR</returns>
+        /// <remarks>8bitTrueColorWithAlphaのみで作成する</remarks>
         protected IHDR CreateHeader(int width, int height)
         {
             IHDR ans = new IHDR();
@@ -40,7 +41,7 @@ namespace Clarity.Image.PNG
 
 
     /// <summary>
-    /// PNGの書き込み
+    /// PNGの書き込み処理クラス
     /// </summary>
     public class PngWriter : PortableGraphicsNetworkWriter
     {

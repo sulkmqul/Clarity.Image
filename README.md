@@ -27,15 +27,13 @@ Visual Studio 2022
 
 
 ## Usage
-See PngTest\Program.cs for details.  
-
-詳しくはPngTest.Program.csを見てください。
 ### APNG
 #### Read
 ```
 Clarity.Image.PNG.APngFile ap = new Clarity.Image.PNG.APngFile();
 await ap.Load(@"anime.png");
 ```
+
 #### Write
 ```
 List<APngFrame> framelist = new List<APngFrame>();
@@ -43,7 +41,6 @@ List<APngFrame> framelist = new List<APngFrame>();
 APngWriter aw = new APngWriter();
 await aw.Save("save_anime.png", framelist);
 ```
-
 
 
 ### PNG
@@ -55,8 +52,13 @@ awit png.Load(@"image.png");
 
 #### Write
 ```
-await aw.Save("save.png", png.Width, png.Height, png.Data);
+Clarity.Image.PNG.PngWriter pw = new Clarity.Image.PNG.PngWriter();
+await pw.Save(@"save.png", png.Width, png.Height, png.Data);
 ```
+
+See PngTest\Program.cs for details.  
+詳しくはPngTest.Program.csを見てください。
+
 #### 
 ## Author 
 sulkmqul  

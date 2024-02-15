@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 namespace Clarity.Image.PNG
 {
     /// <summary>
-    /// 内部パレット定義(PLTEとtRNSのまとめデータ)
+    /// 内部パレット定義(PLTEとtRNSをまとめて整理するもの)
     /// </summary>
     public class ColorPallet
     {
         /// <summary>
-        /// パレット
+        /// パレット情報
         /// </summary>
         public List<Color> Pallet { get; private set; } = new List<Color>();
 
@@ -24,7 +24,7 @@ namespace Clarity.Image.PNG
         /// <param name="pal">Color Pallet chunk</param>
         /// <param name="trans">Transparency chunk</param>
         /// <returns>作成パレット</returns>
-        /// <remarks>PLTE情報をもとにtransを割り当てて定義色にする</remarks>
+        /// <remarks>PLTE情報をもとにtransを割り当ててアルファ付きの色にする</remarks>
         internal static ColorPallet? Craete(PLTE? pal, tRNS? trans)
         {
             //Pallet
