@@ -151,29 +151,7 @@ namespace Clarity.Image.PNG
             byte[] iebi = end.CreateChunkBinary();
             await st.WriteAsync(iebi);
         }
-#if false
-        public static void WriteStream(Stream st, IHDR header, List<Chunk> wrlist)
-        {   
 
-            BinaryWriter bw = new BinaryWriter(st);
-            {
-                //シグネチャ
-                bw.Write(PNG_SIGNATURE);                
-
-                wrlist.Insert(0, header);
-
-                foreach (Chunk ck in wrlist)
-                {
-                    byte[] chunk = ck.CreateChunkBinary();
-                    bw.Write(chunk);
-                }
-
-                //最後にEND
-                var end = new IEND();
-                bw.Write(end.CreateChunkBinary());
-            }
-        }
-#endif
         //--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//
         /// <summary>
         /// 後始末処理
@@ -374,7 +352,7 @@ namespace Clarity.Image.PNG
             //length
             {
                 Span<byte> len = new Span<byte>(new byte[4]);
-                mst.Read(len);
+                mst.Read(len);                
                 length = BinaryPrimitives.ReadUInt32BigEndian(len);
             }
 

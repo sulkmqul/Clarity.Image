@@ -56,18 +56,14 @@ namespace Clarity.Image.PNG
     {
         public APngFile() : base()
         {
-
             this.AddAnalyzeChunk(new ACTL());
             this.AddAnalyzeChunk(new FCTL());
             this.AddAnalyzeChunk(new FDAT());
             this.AddAnalyzeChunk(new IDAT());
-
-            
-
         }
 
         /// <summary>
-        /// 既存画像RGBAバッファ
+        /// デフォルト画像RGBAバッファ
         /// </summary>
         public byte[] DefaultImage { get; set; } = { };
 
@@ -149,6 +145,8 @@ namespace Clarity.Image.PNG
             });
 
 
+            //デフォルト画像の作成
+            this.DefaultImage = this.CreateDefaultImage();
             
         }
 
@@ -225,6 +223,30 @@ namespace Clarity.Image.PNG
 
 
             return anslist;
+        }
+
+
+
+        private byte[] CreateDefaultImage()
+        {            
+            List<IDAT> idatlist = this.GetSelectChunk<IDAT>();
+            //IDATデータがないなら1フレーム目をデフォルト画像とする
+            if(idatlist.Count <= 0)
+            {
+                byte[] ansbuf = new byte[this.FrameList[0].FrameData.Length];
+                Array.Copy(this.FrameList[0].FrameData, ansbuf, ansbuf.Length);
+                return ansbuf;
+            }
+
+            //IDATを読込
+            List<byte> buflist = new List<byte>();
+            idatlist.ForEach(x => buflist.AddRange(x.Data));
+
+            //Color変換
+            PngDataManager mana = new PngDataManager();
+            byte[] colbuf = mana.CreateRGBA(this.Header, buflist.ToArray(), this.Pallet);
+
+            return colbuf;
         }
     }
 }
