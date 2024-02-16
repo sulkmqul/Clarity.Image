@@ -1,7 +1,7 @@
 # Clarity.Image
 APNG and PNG library for C# .net.
 
-C#でapngを扱うライブラリおよび使用サンプルです。
+C#でapngを扱うライブラリおよび使用サンプルです。  
 apngファイルを読み込み、フレームごとのRGBA形式のバッファを作成して保持します。  
 System.Drawing.Bitmapでも使用できるようにRGBA形式から相互変換関数も含めておきました。  
 RGBA形式が基準なので、ある程度は汎用的に利用できると思います。
@@ -16,7 +16,6 @@ Visual Studio 2022
 [System.IO.Hashing-8.0.0](https://www.nuget.org/packages/System.IO.Hashing/8.0.0)
 
 ## Supported image formats
-これしか対応してません。
 #### 読み込み
 - 8bit TrueColor 
 - 8bit TrueColorWithAlpha
@@ -42,7 +41,6 @@ APngWriter aw = new APngWriter();
 await aw.Save("save_anime.png", framelist);
 ```
 
-
 ### PNG
 #### Read
 ```
@@ -56,8 +54,10 @@ Clarity.Image.PNG.PngWriter pw = new Clarity.Image.PNG.PngWriter();
 await pw.Save(@"save.png", png.Width, png.Height, png.Data);
 ```
 
-See PngTest\Program.cs for details.  
-詳しくはPngTest.Program.csを見てください。
+
+詳しくはPngTest.Program.csを見てください。  
+
+
 
 #### 
 ## Author 
