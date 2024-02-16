@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33424.131
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clarity.Image", "Clarity.Image\Clarity.Image.csproj", "{A3EB7620-E54E-408D-B58E-1786DA4DA1A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PngTest", "PngTest\PngTest.csproj", "{4BDBFC30-E2AE-41A0-A4F6-D46D9AAF1386}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A3EB7620-E54E-408D-B58E-1786DA4DA1A9} = {A3EB7620-E54E-408D-B58E-1786DA4DA1A9}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A3EB7620-E54E-408D-B58E-1786DA4DA1A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3EB7620-E54E-408D-B58E-1786DA4DA1A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3EB7620-E54E-408D-B58E-1786DA4DA1A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3EB7620-E54E-408D-B58E-1786DA4DA1A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BDBFC30-E2AE-41A0-A4F6-D46D9AAF1386}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BDBFC30-E2AE-41A0-A4F6-D46D9AAF1386}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BDBFC30-E2AE-41A0-A4F6-D46D9AAF1386}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BDBFC30-E2AE-41A0-A4F6-D46D9AAF1386}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {38600F26-4847-42E0-967B-AB44FAB0F4FA}
+	EndGlobalSection
+EndGlobal
