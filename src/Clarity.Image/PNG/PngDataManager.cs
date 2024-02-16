@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace Clarity.Image.PNG
 {
     /// <summary>
-    /// PNG IDAT部の利用クラス
+    /// PNG IDAT部の解析利用クラス
     /// </summary>
     internal class PngDataManager
     {
@@ -103,8 +103,8 @@ namespace Clarity.Image.PNG
         /// <summary>
         /// RGBAバッファをIDATデータ部形式へ変換する　TrueColorWithAlphaType
         /// </summary>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
+        /// <param name="width">画像幅</param>
+        /// <param name="height">画像高さ</param>
         /// <param name="buf">RGBAバッファ</param>
         /// <remarks>大変すぎるのでFilterは一部のみ対応</remarks>
         /// <returns></returns>
@@ -147,19 +147,16 @@ namespace Clarity.Image.PNG
             //FCHECKはとりあえず2byte目を辞書なしデフォルトにしたときは
             //0x80となる0x8078=3288で31で割ると28あまるので割り切れるようにするため0x80に28足して0x9Cとする
             //FCHECKは28=0x1Cということになる
-            
 
-
-            //byte[] arr = compbuf.ToArray();
+            //圧縮したバッファ書き込み
             anst.Write(compbuf);
 
-            
-            //Checksum計算Adler32
+
+            //Adler32計算
             Adler32 adck = new Adler32();
             byte[] cksum = adck.CalcuAdler32_ByteArray(compbuf);
 
             anst.Write(cksum);
-
 
             byte[] ans = anst.ToArray();
             return ans;
@@ -179,7 +176,7 @@ namespace Clarity.Image.PNG
         {
             using MemoryStream mst = new MemoryStream();
 
-            //場合分けもよくわからないのでとりあえずNone実装
+            //場合分けもよくわからないのでとりあえずNoneで実装
             for (int y = 0; y < height; y++)
             {
                 byte[] filbuf = { };

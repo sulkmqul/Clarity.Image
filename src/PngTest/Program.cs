@@ -51,15 +51,36 @@ async Task WriteAPng(string wfilepath)
     
 }
 
+
+//pngファイルの使用法
+async Task PngTest(string rfilepath, string wfilepath)
+{
+    //読込
+    Clarity.Image.PNG.PngFile png = new Clarity.Image.PNG.PngFile();
+    await png.Load(rfilepath);
+
+    //表示
+    Console.WriteLine($"image width:{png.Width}");
+    Console.WriteLine($"image height:{png.Height}");
+    Console.WriteLine($"image buffer size:{png.Data.Length}");
+
+    //書き込み
+    Clarity.Image.PNG.PngWriter pw = new Clarity.Image.PNG.PngWriter();
+    await pw.Save(wfilepath, png.Width, png.Height, png.Data);
+}
+
 try
 {
 
-    //読込
-    await LoadAPngFile(@"read.png");
-    //書き込み
-    await WriteAPng(@"write.png");
+    //apng読込
+    await LoadAPngFile(@"reada.png");
 
-   
+    //apng書き込み
+    //await WriteAPng(@"writea.png");
+
+    //png読み書き
+    //await PngTest("read.png", "write.png");
+
 
 }
 catch (Exception ex)

@@ -89,6 +89,9 @@ namespace Clarity.Image.PNG
         {
         }
 
+        /// <summary>
+        /// 色数
+        /// </summary>
         int COLSET
         {
             get
@@ -97,6 +100,7 @@ namespace Clarity.Image.PNG
             }
         }
 
+        
         class ImageBuffer
         {
             public ImageBuffer(int width, int height, int coset)
@@ -111,7 +115,7 @@ namespace Clarity.Image.PNG
 
             public int Width;
             public int Height;
-            public int Colset = 4;
+            public int Colset = PngDataManager.N_RGBA;
             public byte[] Data;
             
 
@@ -152,16 +156,16 @@ namespace Clarity.Image.PNG
         /// <summary>
         /// 描画前バッファクリア
         /// </summary>
-        /// <param name="buf"></param>
-        /// <param name="frame"></param>
-        /// <param name="prev"></param>
+        /// <param name="buf">描画バッファ</param>
+        /// <param name="frame">処理フレーム情報</param>
+        /// <param name="prev">前フレーム情報</param>
         /// <exception cref="InvalidOperationException"></exception>
         private void Clear(ImageBuffer buf, FrameTempInfo frame, FrameTempInfo? prev)
         {
             switch(frame.FrameControl.DisposeOp)
             {
                 //None:前のフレームを描画してからなにも変更せずにそのまま利用する
-                //よって前のフレームを描画すれば良い・・・はず
+                //よって前のフレームを描画すれば良いと思われる。
                 case FCTL.EDisposeOp.None:
                     {
                         if(prev != null)
@@ -194,11 +198,11 @@ namespace Clarity.Image.PNG
         /// <summary>
         /// フレーム描画本体
         /// </summary>
-        /// <param name="buf"></param>
-        /// <param name="frame"></param>
+        /// <param name="buf">描画バッファ</param>
+        /// <param name="frame">処理フレーム情報</param>
         private void RenderFrameData(ImageBuffer buf, FrameTempInfo frame)
         {
-            //コピー先領域
+            //コピー先領域を作成
             System.Drawing.Rectangle crect = new System.Drawing.Rectangle(
                 (int)frame.FrameControl.XOffset,
                 (int)frame.FrameControl.YOffset,
@@ -206,15 +210,16 @@ namespace Clarity.Image.PNG
                 (int)frame.FrameControl.Height
             );
 
+            //データコピー
             this.CopyROI(buf, frame.SrcData, crect, frame.FrameControl.BlendOp);
         }
 
         /// <summary>
-        /// フレーム画像貼り付け
+        /// bufにデータ領域をコピーする
         /// </summary>
-        /// <param name="buf"></param>
-        /// <param name="data"></param>
-        /// <param name="rc"></param>
+        /// <param name="buf">描画バッファ</param>
+        /// <param name="data">処理データRGBA</param>
+        /// <param name="rc">コピー先領域</param>
         private void CopyROI(ImageBuffer buf, byte[] data, System.Drawing.Rectangle rc, FCTL.EBlendOp bop)
         {
             for(int y=0; y<rc.Height; y++)

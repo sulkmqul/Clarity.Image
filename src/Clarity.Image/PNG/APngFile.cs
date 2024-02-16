@@ -44,7 +44,7 @@ namespace Clarity.Image.PNG
         public byte[] FrameData { get; private set; }
 
         /// <summary>
-        /// これの表示時間ms
+        /// 表示時間(ミリsec)
         /// </summary>
         public int Time { get; private set; } = 0;
     }
@@ -136,8 +136,7 @@ namespace Clarity.Image.PNG
                 //フレーム画像の作成
                 x.FarmeData = render.RenderFrame(this.Header, x, prev);
 
-                //フレーム情報を作成
-                //APngFrame f = new APngFrame((int)x.FrameControl.Width, (int)x.FrameControl.Height, x.FrameTime, x.SrcData);
+                //フレーム情報を作成                
                 APngFrame f = new APngFrame((int)this.Header.Width, (int)this.Header.Height, x.FrameTime, x.FarmeData);
                 this.FrameList.Add(f);
 
@@ -226,7 +225,10 @@ namespace Clarity.Image.PNG
         }
 
 
-
+        /// <summary>
+        /// デフォルト画像の作成
+        /// </summary>
+        /// <returns>デフォルト画像RGBA領域</returns>
         private byte[] CreateDefaultImage()
         {            
             List<IDAT> idatlist = this.GetSelectChunk<IDAT>();
@@ -242,7 +244,6 @@ namespace Clarity.Image.PNG
             List<byte> buflist = new List<byte>();
             idatlist.ForEach(x => buflist.AddRange(x.Data));
 
-            //Color変換
             PngDataManager mana = new PngDataManager();
             byte[] colbuf = mana.CreateRGBA(this.Header, buflist.ToArray(), this.Pallet);
 

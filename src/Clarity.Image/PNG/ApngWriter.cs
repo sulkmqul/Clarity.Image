@@ -7,9 +7,6 @@ using System.Threading.Tasks;
 
 namespace Clarity.Image.PNG
 {
-    
-
-
     /// <summary>
     /// APNGの書き込み
     /// </summary>
@@ -24,14 +21,38 @@ namespace Clarity.Image.PNG
         /// ファイル書き込み
         /// </summary>
         /// <param name="filepath">ファイルパス</param>
-        /// <param name="flist">書き込みフレーム情報</param>
+        /// <param name="flist">書き込みフレーム情報</param>        
         /// <returns></returns>
         public async Task Save(string filepath, List<APngFrame> flist)
         {
+            await this.Save(filepath, flist, new List<Chunk>());            
+        }
+
+        /// <summary>
+        /// ファイル書き込み
+        /// </summary>
+        /// <param name="filepath">ファイルパス</param>
+        /// <param name="flist">書き込みフレーム情報</param>
+        /// <param name="adlist">追加書き込みチャンク一式</param>
+        /// <returns></returns>
+        public async Task Save(string filepath, List<APngFrame> flist, List<Chunk> adlist)
+        {
             using(FileStream fp = new FileStream(filepath, FileMode.Create))
             {
-                await this.Save(fp, flist);
+                await this.Save(fp, flist, adlist);
             }
+        }
+
+
+        /// <summary>
+        /// stream書き込み
+        /// </summary>
+        /// <param name="st">書き込みstream</param>
+        /// <param name="flist">書き込みフレーム情報</param>
+        /// /// <returns></returns>
+        public async Task Save(Stream st, List<APngFrame> flist)
+        {
+            await this.Save(st, flist, new List<Chunk>());
         }
 
         /// <summary>
@@ -39,8 +60,9 @@ namespace Clarity.Image.PNG
         /// </summary>
         /// <param name="st">書き込みstream</param>
         /// <param name="flist">書き込みフレーム情報</param>
+        /// <param name="adlist">追加書き込みチャンク一式</param>
         /// <returns></returns>
-        public async Task Save(Stream st, List<APngFrame> flist)
+        public async Task Save(Stream st, List<APngFrame> flist, List<Chunk> adlist)
         {
             //エラーチェック
             this.CheckError(flist);
@@ -67,6 +89,8 @@ namespace Clarity.Image.PNG
             var aclist = this.AddAnimeFrameChunk(flist);
             wclist.AddRange(aclist);
 
+            //追加chunkがあるなら追加しておく
+            wclist.AddRange(adlist);
 
             //書き込み
             await PortableGraphicsNetwork.WriteStream(st, header, wclist);
@@ -77,7 +101,7 @@ namespace Clarity.Image.PNG
         /// <summary>
         /// 書き込み前エラーチェック
         /// </summary>
-        /// <param name="flist"></param>
+        /// <param name="flist">書き込みフレーム一覧</param>
         /// <exception cref="ArgumentException"></exception>
         private void CheckError(List<APngFrame> flist)
         {
@@ -87,7 +111,7 @@ namespace Clarity.Image.PNG
                 throw new ArgumentException("frame list size 0");
             }
 
-            //全部同じフレームサイズでないなら対応しない
+            //全部同じフレームサイズでない場合対応しない
             int wc = flist.Select(x => x.Width).Distinct().Count();
             int hc = flist.Select(x => x.Height).Distinct().Count();
             if(wc != 1 || hc != 1)
