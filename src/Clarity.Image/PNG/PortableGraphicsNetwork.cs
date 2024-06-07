@@ -22,6 +22,7 @@ namespace Clarity.Image.PNG
             this.AddAnalyzeChunk(new IHDR());
             this.AddAnalyzeChunk(new PLTE());
             this.AddAnalyzeChunk(new tRNS());
+            this.AddAnalyzeChunk(new tEXt());
             this.AddAnalyzeChunk(new IEND());
         }
 
@@ -66,6 +67,12 @@ namespace Clarity.Image.PNG
         /// ColorPallet
         /// </summary>
         public ColorPallet? Pallet { get; protected set; } = null;
+
+
+        /// <summary>
+        /// text文字列
+        /// </summary>
+        public string Text { get; protected set; } = "";
 
         #endregion
 
@@ -267,12 +274,17 @@ namespace Clarity.Image.PNG
                 throw new InvalidDataException("png header is not contained.");
             }
 
-
             //Palletの作成            
             PLTE? palc = this.GetSelectChunkFirst<PLTE>();
             tRNS? trac = this.GetSelectChunkFirst<tRNS>();
             this.Pallet = ColorPallet.Craete(palc, trac);
 
+            //textの取得
+            var txt = this.GetSelectChunkFirst<tEXt>();
+            if (txt != null)
+            {
+                this.Text = txt.KeyWord + " : " + txt.TextString;
+            }
 
             //後処理
             this.PostProcessing();

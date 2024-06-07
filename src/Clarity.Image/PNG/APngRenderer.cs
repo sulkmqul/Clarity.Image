@@ -26,7 +26,7 @@ namespace Clarity.Image.PNG
         /// <summary>
         /// このフレームの描画時間(ミリsec)
         /// </summary>
-        public int FrameTime
+        public float FrameTime
         {
             get
             {

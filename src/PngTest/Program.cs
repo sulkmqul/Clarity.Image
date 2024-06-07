@@ -73,7 +73,7 @@ try
 {
 
     //apng読込
-    await LoadAPngFile(@"reada.png");
+    //await LoadAPngFile(@"reada.png");
 
     //apng書き込み
     //await WriteAPng(@"writea.png");

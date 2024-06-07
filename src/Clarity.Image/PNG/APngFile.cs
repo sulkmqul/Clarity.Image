@@ -19,7 +19,7 @@ namespace Clarity.Image.PNG
         /// <param name="h">縦幅</param>
         /// <param name="time">表示時間(ms)</param>
         /// <param name="img">RGBAバッファ</param>
-        public APngFrame(int w, int h, int time, byte[] img)
+        public APngFrame(int w, int h, float time, byte[] img)
         {
             this.Width = w;
             this.Height = h;
@@ -46,7 +46,7 @@ namespace Clarity.Image.PNG
         /// <summary>
         /// 表示時間(ミリsec)
         /// </summary>
-        public int Time { get; private set; } = 0;
+        public float Time { get; private set; } = 0;
     }
 
     /// <summary>

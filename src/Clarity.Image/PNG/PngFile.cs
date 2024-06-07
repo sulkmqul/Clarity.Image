@@ -17,8 +17,7 @@ namespace Clarity.Image.PNG
         public PngFile(): base()
         {
             //読込chunkを定義            
-            this.AddAnalyzeChunk(new IDAT());
-            this.AddAnalyzeChunk(new tEXt());
+            this.AddAnalyzeChunk(new IDAT());            
         }
 
                
@@ -27,6 +26,7 @@ namespace Clarity.Image.PNG
         /// RGBAバッファ
         /// </summary>
         public byte[] Data { get; protected set; } = { };
+
         //--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//
 
 
@@ -43,6 +43,10 @@ namespace Clarity.Image.PNG
             //RGBA変換
             PngDataManager ana = new PngDataManager();
             this.Data = ana.CreateRGBA(this.Header, buflist.ToArray(), this.Pallet);
+
+            
+
+            //base.PostProcessing();
         }
     }
 }

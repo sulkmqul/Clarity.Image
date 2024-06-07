@@ -771,11 +771,14 @@ namespace Clarity.Image.PNG
         /// <summary>
         /// フレーム表示秒数(ミリsec)
         /// </summary>
-        public int FrameTimeMiliSec
+        public float FrameTimeMiliSec
         {
             get
             {
-                int ans = (this.DelayNum * 1000) / this.DelayDen;
+                //double f = ((double)this.DelayNum / (double)this.DelayDen) * 1000.0;
+                //int ans = Convert.ToInt32(f);
+
+                float ans = ((float)this.DelayNum / (float)this.DelayDen) * 1000.0f;
                 return ans;
 
             }
