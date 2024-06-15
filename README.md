@@ -62,7 +62,7 @@ await pw.Save(@"save.png", png.Width, png.Height, png.Data);
 #### 
 ## Author 
 sulkmqul  
-[Blog](http://blog.livedoor.jp/serialpath/)
+
 
 
 ## LICENSE
